@@ -11,7 +11,7 @@ function addToCollection(collection,title,artist,tracks,yearPublished){
     tracks: tracks, 
     yearPublished: yearPublished 
   };
-  collection.push(newRecord);
+  collection.push(newRecord);                              
 
   return newRecord;
 }
@@ -79,7 +79,7 @@ addToCollection(myCollection,"Good Luck","Bladee",[["Intro","2:29"],
 
 addToCollection(myCollection,"James Blake","James Blake",[["Unluck","3:00"],
                                                          ["The Willhelm Scream","4:33"],
-                                                         ["I Never Learmt To Share","4:51"],
+                                                         ["I Never Learnt To Share","4:51"],
                                                          ["Lindisfarne I","2:42"],
                                                          ["Lindisfarne II","2:58"],
                                                          ["Limit To Your Love","4:36"],
@@ -168,7 +168,7 @@ addToCollection(myCollection,"Some Rap Songs","Earl Sweatshirt",
                                                 ["Peanut","1:13"],
                                                 ["Riot!","1:06"]], 2018);                                                                                                   
 
-function showCollection(collection){
+function showCollection(collection){  // showCollection() doesn't trigger automated test due to existence of tracks.
   for(let i = 0; i < collection.length; i++){
     console.log(collection[i].title + " by " +  collection[i].artist + " Published in " + collection[i].yearPublished +":"+ "\n");
     console.log("=========================================== ");
@@ -182,21 +182,24 @@ function getTracks(record){ // get tracks of a specific RECORD
     console.log(i+1 +". "+ record.tracks[i][0] + ": "+ record.tracks[i][1]);    
   }
   return 1;
-
 }
 
-function getTracksArray(record){
+function getTracksArray(record){ // Same as getTracks(), However it pushes track into an Array
   let tracksArray = [];
   for(let i = 0; i < record.tracks.length; i++){
     tracksArray.push(record.tracks[i][0]);
   }
   return tracksArray;
 }
+
+
+//+++++++++++++++++++++++++++++++++++++ WORK +++++++++++++++++++++++++++++++++++++++++++++++
+
 //                          i         j  0                         i         j  1
-// console.log(myCollection[0].tracks[0][0] + " : " + myCollection[0].tracks[0][1]);
-// console.log(myCollection[0].tracks[1][0] + " : " + myCollection[0].tracks[1][1]);
-// console.log(myCollection[0].tracks[2][0] + " : " + myCollection[0].tracks[2][1]);
-// console.log(myCollection[0].tracks[3][0] + " : " + myCollection[0].tracks[3][1]);
+// console.log(myCollection[0].tracks[0][0] + " : " + myCollection[0].tracks[0][1]);        
+// console.log(myCollection[0].tracks[1][0] + " : " + myCollection[0].tracks[1][1]);        
+// console.log(myCollection[0].tracks[2][0] + " : " + myCollection[0].tracks[2][1]);        
+// console.log(myCollection[0].tracks[3][0] + " : " + myCollection[0].tracks[3][1]);        
 
 //    First Loop: 
             // Until you reach the end of the RECORDS = i
@@ -206,6 +209,7 @@ function getTracksArray(record){
             // Until you reach the end tracks
 
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function findByArtist(collection,artist){
   let matchingResults = [];
@@ -229,13 +233,13 @@ function search(collection,searchCriteria){
       return collection;
     }
 
-    else if(hasTrackName){
+    else if(hasTrackName){   
 
       for(let i = 0; i < collection.length; i++){
         let trackArrayCompare = getTracksArray(collection[i]);
         for(let j = 0; j < trackArrayCompare.length; j++){
           if(trackArrayCompare[j] == searchCriteria.trackName){
-            matchingResults.push(collection[i]); // find way to return record of track name and format it with string
+            matchingResults.push(collection[i]); 
           }
         }
       }
@@ -254,12 +258,12 @@ function search(collection,searchCriteria){
   return matchingResults;
 }
 
-
+//  Test Objects: 
 let testSearchObject = {
   artist: "Bladee",
   yearPublished: 2020
 };
-let testSearchObjectTwo = {
+let testSearchObjectTwo = {  // Purposely added track from another record (yeezus) to test if search function ignores artist and year given existence of track name
   artist: "Bladee",
   yearPublished: 2020,
   trackName: "Bound 2"
@@ -274,13 +278,15 @@ let testSearchObjectFour = {
   yearPublished: 2020,
   trackName: "Waster"
 };
-let testSearchObjectFive = {
+let testSearchObjectFive = {    // testing without existence of year or track
   artist: "Frank Ocean"
 };
 let testSearchObjectSix = {
   artist: "Billy Joel",
   yearPublished: 1980
 };
+
+// ++++++++++++++++++++++++++++++++++++++++++ TESTING ++++++++++++++++++++++++++++++++++++++++++++++++
 
 console.log(showCollection(myCollection));
 console.log("=========================================== ");
