@@ -170,7 +170,7 @@ addToCollection(myCollection,"Some Rap Songs","Earl Sweatshirt",
 
 function showCollection(collection){
   for(let i = 0; i < collection.length; i++){
-    console.log(collection[i].title + " by " +  collection[i].artist + " Published in " + collection[i].yearPublished + "\n");  // change to new line
+    console.log(collection[i].title + " by " +  collection[i].artist + " Published in " + collection[i].yearPublished +":"+ "\n");
     console.log("=========================================== ");
     console.log(getTracks(collection[i]));
   }
@@ -181,7 +181,15 @@ function getTracks(record){ // get tracks of a specific RECORD
   for(let i = 0; i < record.tracks.length; i++){
     console.log(i+1 +". "+ record.tracks[i][0] + ": "+ record.tracks[i][1]);
   }
-  return 1;
+
+}
+
+function getTracksArray(record){
+  let tracksArray = [];
+  for(let i = 0; i < record.tracks.length; i++){
+    tracksArray.push(record.tracks[i][0]);
+  }
+  return tracksArray;
 }
 // console.log(myCollection[0].tracks.length);
 console.log(showCollection(myCollection));
@@ -223,24 +231,66 @@ function findByArtist(collection,artist){
 // OBJECT THAT HAS TWO PROPERTIES ARTIST AND YEAR
 function search(collection,searchCriteria){
   let matchingResults = [];
-  if(searchCriteria == null || searchCriteria == " "){
-    return collection;
-  }
-  
-  for(let record of collection){
-    if(searchCriteria.hasOwnProperty("trackName")){
-      matchingResults.push(record);
-      // wrong logic, record will be pushed every time if parameter search Criteria has property "trackName"
+  let hasTrackName = searchCriteria.hasOwnProperty("trackName"); // T or F
+
+  if(searchCriteria == null       ||
+    searchCriteria.artist == null ||
+    searchCriteria.yearPublished == null){
+
+      return collection;
     }
 
-    else if((record.artist === searchCriteria.artist) &&
-    (record.yearPublished === searchCriteria.yearPublished)){
-
-       matchingResults.push(record);
+    else if(hasTrackName){
+      for(let i = 0; i < collection.length; i++){
+        let trackArrayCompare = getTracksArray(collection[i]);
+        for(let j = 0; j < trackArrayCompare.length; j++){
+          if(trackArrayCompare[j] == searchCriteria.trackName){
+            matchingResults.push(trackArrayCompare[j]); // find way to return record of track name and format it with string
+          }
+        }
+      }
     }
-  }
+
+    else if(!hasTrackName){
+
+      for(let record of collection){
+        if((record.artist == searchCriteria.artist) &&
+        (record.yearPublished == searchCriteria.yearPublished)){
+          matchingResults.push(record);
+        }
+      }
+    }
+
   return matchingResults;
 }
+
+
+
+
+
+
+//   let matchingResults = [];
+//   if(searchCriteria == null || searchCriteria == " "){
+//     return collection;
+//   }
+
+//   if(searchCriteria.hasOwnProperty("trackName")){
+//     for(let i = 0; i < collection.length; i++){
+//       if(collection.trackName== searchCriteria.trackName){
+//       matchingResults.push(record);
+//       }
+//     }
+//   }
+//   else if((collection.artist === searchCriteria.artist) &&
+//   (collection.yearPublished === searchCriteria.yearPublished)){
+//     for(let record of collection){
+//     matchingResults.push(record);
+//     }
+//   }
+//   return matchingResults;
+// }
+
+
 let testSearchObject = {
   artist: "Bladee",
   yearPublished: 2020
@@ -250,12 +300,37 @@ let testSearchObjectTwo = {
   yearPublished: 2020,
   trackName: "Bound 2"
 };
-console.log(testSearchObjectTwo.hasOwnProperty("trackName"));
-console.log("\n");
-// console.log(myCollection[1]);
+
+let testSearchObjectThree = {
+  artist: "Earl Sweatshirt",
+  yearPublished: 2018
+};
+let testSearchObjectFour = {
+  artist: "Bladee",
+  yearPublished: 2020,
+  trackName: "Waster"
+};
+let testSearchObjectFive = {
+  artist: "Frank Ocean"
+};
+let testSearchObjectSix = {
+  artist: "Billy Joel",
+  yearPublished: 1980
+};
+
 console.log("search function, should return yeezus:" ,search(myCollection,testSearchObjectTwo));
 console.log("\n");
-console.log("Search: ",search(myCollection,testSearchObject));
+console.log("Search function, should return GL by Bladee : ",search(myCollection,testSearchObject));
+console.log("\n");
+console.log("Search function, should return Some Rap Songs: ",search(myCollection,testSearchObjectThree));
+console.log("\n");
+console.log("Search function, should return Icedancer ",search(myCollection,testSearchObjectFour));
+console.log("\n");
+console.log("Search function, should return full collection: ",search(myCollection,testSearchObjectFive));
+console.log("\n");
+console.log("Search function, should return empty array : ",search(myCollection,testSearchObjectSix));
+
+
 
 
 
