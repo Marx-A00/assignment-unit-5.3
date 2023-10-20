@@ -119,17 +119,69 @@ addToCollection(myCollection,"In Utero","Nirvana",[["Serve the Servants","3:36"]
                                                   ["Tourette's", "1:35"],
                                                   ["All Apologies","3:51"],],1993);
 
+
+addToCollection(myCollection,"Hiding Places","Billy Woods",[["Spongebob","3:52"],
+                                                  ["Steak Knives","1:28"],
+                                                  ["Checkpoints","3:13"],
+                                                  ["Spider Hole","3:40"],
+                                                  ["Houthi","2:44"],
+                                                  ["A Day in a Week in a Year","5:04"],
+                                                  ["Bedtime","2:15"],
+                                                  ["Crawlspace","3:45"],
+                                                  ["Speak Gently","4:53"],
+                                                  ["Toothy","2:17"],
+                                                  ["Bigfakelaugh", "3:48"],
+                                                  ["Red Dust","3:24"],],2019);
+                                                  
+addToCollection(myCollection,"Blonde","Frank Ocean",[["Nikes","5:14"],
+                                                  ["Ivy","4:09"],
+                                                  ["Pink + White","3:04"],
+                                                  ["Be Yourself","1:26"],
+                                                  ["Solo","4:17"],
+                                                  ["Skyline To","3:04"],
+                                                  ["Self Control","4:09"],
+                                                  ["Good Guy","1:06"],
+                                                  ["Nights","5:07"],
+                                                  ["Solo (Reprise)","1:18"],
+                                                  ["Pretty Sweet", "2:38"],
+                                                  ["Facebook Story","1:08"],
+                                                  ["Close To You","1:25"],
+                                                  ["White Ferrari","4:08"],
+                                                  ["Seigfried","5:34"],
+                                                  ["Godspeed","2:57"],
+                                                  ["Futura Free","9:24"]],2016);
+
+addToCollection(myCollection,"Some Rap Songs","Earl Sweatshirt",
+                                                [["Shattered Dreams","2:21"],
+                                                ["Red Water","1:44"],
+                                                ["Cold Summers","1:06"],
+                                                ["Nowhere2go","1:53"],
+                                                ["December 24","1:46"],
+                                                ["Ontheway!","1:41"],
+                                                ["The Mint","2:45"],
+                                                ["The Bends","1:34"],
+                                                ["Loosie","0:59"],
+                                                ["Azucar","1:25"],
+                                                ["Eclipse", "1:33"],
+                                                ["Veins","1:59"],
+                                                ["Playing Possum","1:34"],
+                                                ["Peanut","1:13"],
+                                                ["Riot!","1:06"]], 2018);                                                                                                   
+
 function showCollection(collection){
   for(let i = 0; i < collection.length; i++){
-    console.log(collection[i].title + " by " +  collection[i].artist + " Published in " + collection[i].yearPublished + "\n"
-    + getTracks(collection[i]));
+    console.log(collection[i].title + " by " +  collection[i].artist + " Published in " + collection[i].yearPublished + "\n");  // change to new line
+    console.log("=========================================== ");
+    console.log(getTracks(collection[i]));
   }
+  return 1;
 }
 
 function getTracks(record){ // get tracks of a specific RECORD
   for(let i = 0; i < record.tracks.length; i++){
-    console.log(record.tracks[i][0] + ": "+ record.tracks[i][1]);
+    console.log(i+1 +". "+ record.tracks[i][0] + ": "+ record.tracks[i][1]);
   }
+  return 1;
 }
 // console.log(myCollection[0].tracks.length);
 console.log(showCollection(myCollection));
@@ -171,15 +223,40 @@ function findByArtist(collection,artist){
 // OBJECT THAT HAS TWO PROPERTIES ARTIST AND YEAR
 function search(collection,searchCriteria){
   let matchingResults = [];
-  if(searchCriteria == null || searchCriteria == ""){
+  if(searchCriteria == null || searchCriteria == " "){
     return collection;
   }
+  
+  for(let record of collection){
+    if(searchCriteria.hasOwnProperty("trackName")){
+      matchingResults.push(record);
+      // wrong logic, record will be pushed every time if parameter search Criteria has property "trackName"
+    }
 
-  // is search criteria a string?
+    else if((record.artist === searchCriteria.artist) &&
+    (record.yearPublished === searchCriteria.yearPublished)){
 
-
+       matchingResults.push(record);
+    }
+  }
+  return matchingResults;
 }
+let testSearchObject = {
+  artist: "Bladee",
+  yearPublished: 2020
+};
+let testSearchObjectTwo = {
+  artist: "Bladee",
+  yearPublished: 2020,
+  trackName: "Bound 2"
+};
+console.log(testSearchObjectTwo.hasOwnProperty("trackName"));
+console.log("\n");
 // console.log(myCollection[1]);
+console.log("search function, should return yeezus:" ,search(myCollection,testSearchObjectTwo));
+console.log("\n");
+console.log("Search: ",search(myCollection,testSearchObject));
+
 
 
 
