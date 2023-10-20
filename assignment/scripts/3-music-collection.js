@@ -179,8 +179,9 @@ function showCollection(collection){
 
 function getTracks(record){ // get tracks of a specific RECORD
   for(let i = 0; i < record.tracks.length; i++){
-    console.log(i+1 +". "+ record.tracks[i][0] + ": "+ record.tracks[i][1]);
+    console.log(i+1 +". "+ record.tracks[i][0] + ": "+ record.tracks[i][1]);    
   }
+  return 1;
 
 }
 
@@ -191,11 +192,6 @@ function getTracksArray(record){
   }
   return tracksArray;
 }
-// console.log(myCollection[0].tracks.length);
-console.log(showCollection(myCollection));
-console.log("\n");
-// console.log(myCollection[0].tracks[0][0] +" : " + myCollection[0].tracks[0][1]);
-console.log("\n");
 //                          i         j  0                         i         j  1
 // console.log(myCollection[0].tracks[0][0] + " : " + myCollection[0].tracks[0][1]);
 // console.log(myCollection[0].tracks[1][0] + " : " + myCollection[0].tracks[1][1]);
@@ -211,11 +207,6 @@ console.log("\n");
 
 
 
-
-// console.log(getTracks(myCollection));
-
-// showCollection(myCollection);
-
 function findByArtist(collection,artist){
   let matchingResults = [];
   for(let record of collection){
@@ -226,7 +217,6 @@ function findByArtist(collection,artist){
   return matchingResults;
 }
 
-// console.log(findByArtist(myCollection,"Bladee"));
 
 // OBJECT THAT HAS TWO PROPERTIES ARTIST AND YEAR
 function search(collection,searchCriteria){
@@ -236,16 +226,16 @@ function search(collection,searchCriteria){
   if(searchCriteria == null       ||
     searchCriteria.artist == null ||
     searchCriteria.yearPublished == null){
-
       return collection;
     }
 
     else if(hasTrackName){
+
       for(let i = 0; i < collection.length; i++){
         let trackArrayCompare = getTracksArray(collection[i]);
         for(let j = 0; j < trackArrayCompare.length; j++){
           if(trackArrayCompare[j] == searchCriteria.trackName){
-            matchingResults.push(trackArrayCompare[j]); // find way to return record of track name and format it with string
+            matchingResults.push(collection[i]); // find way to return record of track name and format it with string
           }
         }
       }
@@ -263,32 +253,6 @@ function search(collection,searchCriteria){
 
   return matchingResults;
 }
-
-
-
-
-
-
-//   let matchingResults = [];
-//   if(searchCriteria == null || searchCriteria == " "){
-//     return collection;
-//   }
-
-//   if(searchCriteria.hasOwnProperty("trackName")){
-//     for(let i = 0; i < collection.length; i++){
-//       if(collection.trackName== searchCriteria.trackName){
-//       matchingResults.push(record);
-//       }
-//     }
-//   }
-//   else if((collection.artist === searchCriteria.artist) &&
-//   (collection.yearPublished === searchCriteria.yearPublished)){
-//     for(let record of collection){
-//     matchingResults.push(record);
-//     }
-//   }
-//   return matchingResults;
-// }
 
 
 let testSearchObject = {
@@ -317,6 +281,10 @@ let testSearchObjectSix = {
   artist: "Billy Joel",
   yearPublished: 1980
 };
+
+console.log(showCollection(myCollection));
+console.log("=========================================== ");
+
 
 console.log("search function, should return yeezus:" ,search(myCollection,testSearchObjectTwo));
 console.log("\n");
